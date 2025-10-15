@@ -16,7 +16,10 @@ ADDONS = {}
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "bookscraper (+http://www.yourdomain.com)"
+# USER_AGENT = "bookscraper (+http://www.yourdomain.com)"
+
+# USER_AGENT = 'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
+
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -46,9 +49,13 @@ DOWNLOAD_DELAY = 1
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "bookscraper.middlewares.BookscraperDownloaderMiddleware": 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    "bookscraper.middlewares.BookscraperDownloaderMiddleware": 543,
+    'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
+    'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
+    'scrapeops_scrapy.middleware.retry.RetryMiddleware': 550, 
+  'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -91,3 +98,15 @@ ITEM_PIPELINES = {
    'bookscraper.pipelines.SaveToPostgresPipeline': 300,
 }
 
+ROTATING_PROXY_LIST = [
+    'proxy1.com:8000',
+    'proxy2.com:8031',
+    'proxy3.com:8032',
+]
+
+SCRAPEOPS_API_KEY = '46d071fb-5023-4eed-8e26-8ab6e745cd49'
+
+## Add In The ScrapeOps Extension
+EXTENSIONS = {
+  'scrapeops_scrapy.extension.ScrapeOpsMonitor': 500, 
+}

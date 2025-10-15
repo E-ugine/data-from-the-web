@@ -4,6 +4,7 @@ import psycopg2
 class BookscraperPipeline:
     """Cleans and normalizes the scraped book data."""
     def process_item(self, item, spider):
+        print("Saving item:", item['title'])
         adapter = ItemAdapter(item)
 
         # Strip whitespace
@@ -55,10 +56,10 @@ class SaveToPostgresPipeline:
 
         # Connect to database
         self.connection = psycopg2.connect(
-            host=hostname,
-            user=username,
-            password=password,
-            dbname=database
+            host='localhost',
+            user='scrapy_user',
+            password='scrapy_password',
+            dbname='scrapy_db'
         )
         self.cur = self.connection.cursor()
 
